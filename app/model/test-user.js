@@ -5,16 +5,16 @@ module.exports = app => {
   const TestUser = app.model.define('test_user', {
     id: { type: INTEGER, primaryKey: true, autoIncrement: true },
     mytest: STRING(255),
-    mytest2:STRING(255)
+    mytest2: STRING(255),
   }, {
     timestamps: false,
     underscored: true,
     freezeTableName: true,
-    tableName: "test_user"
+    tableName: 'test_user',
   });
-  TestUser.associate = function(){
- 
-  }
+  TestUser.associate = function() {
+
+  };
 
   return TestUser;
 };
