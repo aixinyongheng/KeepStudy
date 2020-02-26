@@ -1,0 +1,8 @@
+{
+    "eslint.options": {
+        "extensions": [
+            ".js"
+        ]
+    },
+    "eslint.enable": true,
+}

@@ -5,19 +5,22 @@
  */
 module.exports = app => {
   const { router, controller } = app;
+  const auth = app.middlewares.auth();
   router.get('/sequelize/select', controller.sequelizeTest.index);
-  router.get('/sequelize/insert',controller.sequelizeTest.inserttest)
-  router.get('/sequelize/delete',controller.sequelizeTest.deletetest)
-  router.get('/sequelize/update',controller.sequelizeTest.updatetest)
+  router.get('/sequelize/insert', controller.sequelizeTest.inserttest);
+  router.get('/sequelize/delete', controller.sequelizeTest.deletetest);
+  router.get('/sequelize/update', controller.sequelizeTest.updatetest);
 
-  router.get('/sequelizeModel/select',controller.sequelizeModelTest.selectTest)
-  router.get('/sequelizeModel/insert',controller.sequelizeModelTest.insertTest)
-  router.get('/sequelizeModel/delete',controller.sequelizeModelTest.deleteTest)
-  router.get('/sequelizeModel/update',controller.sequelizeModelTest.updateTest)
+  router.get('/sequelizeModel/select', controller.sequelizeModelTest.selectTest);
+  router.get('/sequelizeModel/insert', controller.sequelizeModelTest.insertTest);
+  router.get('/sequelizeModel/delete', controller.sequelizeModelTest.deleteTest);
+  router.get('/sequelizeModel/update', controller.sequelizeModelTest.updateTest);
+
+  router.get('/auth/sequlizeModel/login', controller.authTest.loginTest);
+  router.get('/auth/sequlizeModel/select', auth, controller.authTest.selectTest);
+  router.get('/auth/sequlizeModel/insert', controller.authTest.createTest);
 
 
-  router.get('/bb', controller.home.test);
-  router.get('/insertest',controller.home.inserttest)
-  router.get('/test/:data_id',controller.home.download)
-  router.get('/updatetest',controller.home.mkSprite) //雪碧图测试
+  router.get('/test/:data_id', controller.home.download);// 下载测试
+  router.get('/updatetest', controller.home.mkSprite); // 雪碧图测试
 };
