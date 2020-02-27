@@ -1,6 +1,7 @@
 'use strict';
 const Service = require('egg').Service;
 const jwt = require('jsonwebtoken');
+const UUID = require('uuid');
 class AuthTestServer extends Service {
   async loginTest(username, password) {
     const { app } = this;
@@ -23,16 +24,21 @@ class AuthTestServer extends Service {
 
   async createTest(user) {
     const { app } = this;
-    const UUID = require('uuid');
+    const result = { code: 0, msg: '创建成功', data: '' };
     const id = UUID.v1();
-    console.log('yangzhtest', user);
-    console.log('yangzh:', id);
     const userObject = JSON.parse(user);
-    console.log('object', userObject);
+    // 先判断用户是否已存在
+    const existUser = await app.model.User.findOne({ where: { username: userObject.username } });
+    console.log(existUser);
+    if (existUser) {
+      result.msg = '已存在该用户';
+      result.code = '500';
+      return result;
+    }
     userObject.id = id;
     await app.model.User.create(userObject);
-    return id;
-
+    result.data = userObject;
+    return result;
   }
 
 }
