@@ -6,7 +6,7 @@ class SequelizeTestController extends Controller {
   async index() {
     const { ctx } = this;
     const user = await ctx.service.sequelizeTest.getUser();
-    console.log('yagnzhtest', user);
+    let test=1/0;
     ctx.body = user;
   }
   async inserttest() {

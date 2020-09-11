@@ -23,4 +23,8 @@ module.exports = app => {
 
   router.get('/test/:data_id', controller.home.download);// 下载测试
   router.get('/updatetest', controller.home.mkSprite); // 雪碧图测试
+
+  router.get('/font/:fontstack/:range.pbf', controller.home.mkSprite);
+  
+  router.post('/uploadExcel', controller.dealExcel.uploadExcel); // 解析excel
 };
