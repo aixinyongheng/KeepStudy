@@ -27,4 +27,7 @@ module.exports = app => {
   router.get('/font/:fontstack/:range.pbf', controller.home.mkSprite);
   
   router.post('/uploadExcel', controller.dealExcel.uploadExcel); // 解析excel
+
+  //mvt 矢量实时切片获取
+  router.get('/queryMvt/:z/:x/:y.mvt', controller.map.queryMvt);
 };
