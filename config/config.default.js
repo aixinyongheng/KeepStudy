@@ -57,7 +57,7 @@ module.exports = appInfo => {
         dialect: 'postgres', // support: mysql, mariadb, postgres, mssql
         username: 'postgres', // username
         database: 'emergency',
-        host: '39.105.87.199',
+        host: 'localhost',
         password: '123456',
         // host: '10.18.66.169',
         // password: 'qgzhdc@123',

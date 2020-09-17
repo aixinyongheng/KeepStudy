@@ -35,10 +35,10 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start  --port=8099 --daemon --title=egg-server-egg_example",
+    "start": "egg-scripts start  --port=7001 --daemon --title=egg-server-egg_example",
     "stop": "egg-scripts stop --title=egg-server-egg_example",
-    "dev": "egg-bin dev",
-    "debug": "egg-bin debug",
+    "dev": "egg-bin dev  --port=7001",
+    "debug": "egg-bin debug  --port=7001",
     "test": "npm run lint -- --fix && npm run test-local",
     "test-local": "egg-bin test",
     "cov": "egg-bin cov",
