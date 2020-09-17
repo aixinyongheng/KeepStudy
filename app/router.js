@@ -30,4 +30,6 @@ module.exports = app => {
 
   //mvt 矢量实时切片获取
   router.get('/queryMvt/:z/:x/:y.mvt', controller.map.queryMvt);
+  //geojson 获取geojson
+  router.get('/queryGeojson',controller.map.queryGeojson);
 };

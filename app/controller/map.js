@@ -14,7 +14,16 @@ class MapController extends Controller {
     ctx.set('Content-Encoding', 'gzip');
     ctx.body = result.data;
   }
- 
+
+  async queryGeojson(){
+    const { ctx } = this;
+    const query = ctx.query;
+    const result = await ctx.service.map.queryGeojson(query);
+    if (result.code == 0) { ctx.body = result;ctx.status=404; return; }
+    // ctx.set('Content-Type', 'application/x-protobuf');
+    // ctx.set('Content-Encoding', 'gzip');
+    ctx.body = result.data;
+  }
 }
 
 module.exports = MapController;

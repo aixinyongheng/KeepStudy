@@ -58,10 +58,10 @@ module.exports = appInfo => {
         username: 'postgres', // username
         database: 'emergency',
         host: 'localhost',
-        password: '123456',
+        password: 'postgres',
         // host: '10.18.66.169',
         // password: 'qgzhdc@123',
-        port: '55433',
+        port: '5432',
         timezone: '+08:00',
         pool: {
           max: 5,
