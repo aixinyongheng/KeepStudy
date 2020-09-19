@@ -61,6 +61,7 @@ class Map extends Service {
     return result;
   }
   
+  // 获取geojson
   async queryGeojson({tablename,tolerance=0}){
     const { ctx, config, logger } = this;
     let result = {
@@ -95,5 +96,67 @@ class Map extends Service {
     return result;
   }
 
+  //
+  async queryMbtiles(z, x, y,query){
+    const { ctx, config, logger } = this;
+    let result = {
+      code: 1,
+      data: null,
+      msg: null
+    };
+    const Sequelize = require('sequelize');
+    const mbtilesPath=path.resolve("app","service","china.mbtiles");
+    const sequelize = new Sequelize({
+      host: 'localhost',
+      dialect: 'sqlite',
+      pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+      },
+      storage: mbtilesPath,  // 此处必须绝对路径，相对的不行（未解决）
+      operatorsAliases: false
+    });
+    const res=await sequelize.query(`select tile_data from tiles where zoom_level='${z}' and tile_row='${y}' and tile_column='${x}' `).catch(err=>{
+      result.code=0;
+      result.data=err;
+    });
+    // 下面使用sqlite3直接查询
+    // const sqlite3=require("sqlite3").verbose(); 
+    // let db = null;
+    // try {
+    //   db = new sqlite3.Database("E:\\yangzh\\KeepStudy\\github\\KeepStudy\\app\\service\\china.mbtiles");
+    // } catch (error) {
+    //   result.code = 0;
+    //   result.msg = "打开mbtiles失败";
+    //   result.data = error;
+    //   return result;
+    // }
+    // db.all(`select * from tiles limit 1  `, async function (err, db_res) {
+    //       result.data=db_res;
+    //       console.log("yangzh:",db_res);
+    // });
+    if(result.code==0)return result;
+    if (!res||!res[0]||!res[0][0]||!res[0][0].tile_data) {
+      result.code=0;
+      return result;
+    }
+    if(res[0][0].tile_data==null||res[0][0].tile_data.byteLength == 0){
+      result.code=0;
+      return result;
+    }
+    result.data = res[0][0].tile_data;
+    // result.data = zlib.gzipSync( res[0][0].tile_data);
+    // if(res[0]&&res[0][0]&&res[0][0].tile_data){
+    //   result.data = res[0][0].tile_data;
+    // }else{
+    //   result.code=0;
+    //   result.msg="无瓦片";
+    // }
+    return result;
+  }
+
+ 
 }
 module.exports = Map;

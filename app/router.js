@@ -32,4 +32,7 @@ module.exports = app => {
   router.get('/queryMvt/:z/:x/:y.mvt', controller.map.queryMvt);
   //geojson 获取geojson
   router.get('/queryGeojson',controller.map.queryGeojson);
+
+ // 获取mbtiles
+  router.get('/queryMbtiles/:z/:x/:y.pbf',controller.map.queryMbtiles);
 };
