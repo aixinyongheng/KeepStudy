@@ -147,13 +147,6 @@ class Map extends Service {
       return result;
     }
     result.data = res[0][0].tile_data;
-    // result.data = zlib.gzipSync( res[0][0].tile_data);
-    // if(res[0]&&res[0][0]&&res[0][0].tile_data){
-    //   result.data = res[0][0].tile_data;
-    // }else{
-    //   result.code=0;
-    //   result.msg="无瓦片";
-    // }
     return result;
   }
 
