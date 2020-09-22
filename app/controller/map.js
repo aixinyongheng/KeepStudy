@@ -41,6 +41,18 @@ class MapController extends Controller {
     // ctx.set('Content-Encoding', 'gzip');
     ctx.body = result.data;
   }
+
+  // 从mongodb中读取数据
+  async queryPbf(){
+    const { ctx } = this;
+    const query = ctx.query;
+    const { z, x, y } = ctx.params;
+    const result = await ctx.service.map.queryPbf(z,x,y,query);
+    if (result.code == 0) { ctx.body = result;ctx.status=404; return; }
+    const tiletype = require('@mapbox/tiletype');
+    ctx.set(tiletype.headers(result.data));
+    ctx.body=result.data;
+  }
 }
 
 module.exports = MapController;

@@ -36,8 +36,11 @@ module.exports = app => {
  // 获取mbtiles
   router.get('/queryMbtiles/:z/:x/:y.pbf',controller.map.queryMbtiles);
 
+  // 从mongodb中读取数据
+  router.get('/queryPbf/:z/:x/:y.pbf',controller.map.queryPbf);
+
   // 通用服务
   router.post('/createOrUpdateData',controller.common.createOrUpdateData);// 先建编辑
   router.get('/queryListCommon',controller.common.queryListCommon);// 通用列表查询
-  
+  router.get('/test', controller.home.test);
 };

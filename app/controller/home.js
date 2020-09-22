@@ -46,6 +46,12 @@ class HomeController extends Controller {
     ctx.body = pngResult;
   }
 
+  async test(){
+    const { ctx } = this;
+    console.log("转发了");
+    ctx.redirect('http://www.baidu.com');
+  }
+
 }
 
 module.exports = HomeController;

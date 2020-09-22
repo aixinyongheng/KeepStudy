@@ -3,13 +3,14 @@ const util = require('../util');
 const Service = require("egg").Service;
 const zlib = require('zlib');
 var UUID = require('uuid');
+let mongoose = require('mongoose');
 const rd = require('rd');
 const fs = require('fs');
 const path = require("path");
 
 class Map extends Service {
 
-  //20191011
+  // 20191011
   async queryMvt(z, x, y, {tablename='geo_xian'}) {
     const { ctx, config, logger } = this;
     let result = {
@@ -96,7 +97,7 @@ class Map extends Service {
     return result;
   }
 
-  //
+  // 查询mbtiles
   async queryMbtiles(z, x, y,query){
     const { ctx, config, logger } = this;
     let result = {
@@ -150,6 +151,51 @@ class Map extends Service {
     return result;
   }
 
- 
+  // 从mongdb中获取pbf [测试数据    source-layer:11001000141_兴趣区界_region   fill   ]
+  async queryPbf(z, x, y,{tilesetid="11001000001"}){
+    let result={code:1,msg:"获取成功"}
+    let TileSchema = new mongoose.Schema({
+      zoom_level: Number,
+      tile_column: Number,
+      tile_row: Number,
+      tile_data: Buffer
+    });
+    const db=await util.getMongooseDb();
+    let tileModel = db.model(
+      "tiles_" + tilesetid,
+      TileSchema,
+      "tiles_" + tilesetid
+    );
+    let findPromise = new Promise(function (resolve, reject) {
+      tileModel.findOne(
+        {
+          zoom_level: z,
+          tile_column:x,
+          tile_row:  y
+        },
+        function (err, res) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(res);
+          }
+        }
+      );
+    });
+    let pbf_result = await findPromise.catch(err => {
+      result.code = 0;
+      result.data = err;
+      return result;
+    });
+    if (pbf_result&&pbf_result.tile_data) {
+      result.data = pbf_result.tile_data;
+    }else{
+      result.code=0;
+    }
+    return result;
+  }
+
+  // mbtiles2Mongodb   mbtiles导入mongodb
+  
 }
 module.exports = Map;

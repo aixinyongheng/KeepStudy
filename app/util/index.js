@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+let mongoose = require('mongoose');
 module.exports = {
   // 获取sequelize
   getSequelize(config) {
@@ -16,6 +17,42 @@ module.exports = {
       }
     );
     return sequelize;
+  },
+  async getMongooseDb(){
+     
+    let mongoClient =   mongoose.createConnection('mongodb://mongo:123456@39.105.87.199:27017/emergency',{
+        poolSize: 5, // 连接池中维护的连接数
+        reconnectTries: Number.MAX_VALUE,
+        keepAlive: 120,
+        // user:"root",
+        // pass:"123456"
+     });
+    //  var db = mongoose.connection;
+    //  db.on('error', console.error.bind(console, 'connection error:'));
+    // await new Promise((resolve, reject) => {
+    //   db.once('open',  function() {
+    //     console.log("1");
+    //     resolve("ok");
+    //   });
+    // });
+   
+    // console.log("2");
+    mongoClient.on('connected', function () {
+      console.log('Mongoose connected to ' );
+  });
+  /**
+   * Mongo 连接失败回调
+   */
+    mongoClient.on('error', function (err) {
+        console.log('Mongoose connection error: ' + err);
+    });
+  /**
+   * Mongo 关闭连接回调
+   */
+    mongoClient.on('disconnected', function () {
+        console.log('Mongoose disconnected');
+    });
+    return mongoClient; 
   },
   // 第归查找节点并更新
   setAttrDeep(org, obj) {
