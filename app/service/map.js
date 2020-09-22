@@ -153,6 +153,7 @@ class Map extends Service {
 
   // 从mongdb中获取pbf [测试数据    source-layer:11001000141_兴趣区界_region   fill   ]
   async queryPbf(z, x, y,{tilesetid="11001000001"}){
+    const { ctx, config, logger } = this;
     let result={code:1,msg:"获取成功"}
     let TileSchema = new mongoose.Schema({
       zoom_level: Number,
@@ -160,7 +161,7 @@ class Map extends Service {
       tile_row: Number,
       tile_data: Buffer
     });
-    const db=await util.getMongooseDb();
+    const db=await util.getMongooseDb(config.mongodbConfig);
     let tileModel = db.model(
       "tiles_" + tilesetid,
       TileSchema,

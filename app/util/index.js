@@ -18,9 +18,9 @@ module.exports = {
     );
     return sequelize;
   },
-  async getMongooseDb(){
-     
-    let mongoClient =   mongoose.createConnection('mongodb://mongo:123456@39.105.87.199:27017/emergency',{
+  
+  async getMongooseDb(config){
+    let mongoClient =   mongoose.createConnection(`mongodb://${config.user}:${config.pass}@39.105.87.199:27017/emergency`,{
         poolSize: 5, // 连接池中维护的连接数
         reconnectTries: Number.MAX_VALUE,
         keepAlive: 120,

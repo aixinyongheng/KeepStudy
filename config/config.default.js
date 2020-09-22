@@ -78,6 +78,7 @@ module.exports = appInfo => {
     ],
   
   };
+  config.mongodbConfig={user:"mongo",pass:"123456"};
   config.mapKeys = {
     tdt: 'a9e9bd2afa02ca0473c5ae68253561df',
     gd: '76c52a1be09375ac80cb68bfe55906dd',
